@@ -10,9 +10,9 @@ $ java -jar Files-sort.jar
 
 Options run the script
 ```
-* -c config.properties      set config files
-* -f typefiles              set file extensions
-* -d dir                    set working dir
+-c config.properties      set config files
+-f typefiles              set file extensions
+-d dir                    set working dir
 ```
 
 
