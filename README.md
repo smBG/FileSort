@@ -14,7 +14,8 @@ Options run the script
 -f typefiles              set file extensions
 -d dir                    set working dir
 ```
-
+## config.properties
+* config.properties
 
 ## Version 
 * 0.1
