@@ -15,7 +15,7 @@ Options run the script
 -d dir                    set working dir
 ```
 ## config.properties
-* config.properties
+* [description format](https://github.com/smBG/FileSort/blob/master/bin/filesort.properties)
 
 ## Version 
 * 0.1
