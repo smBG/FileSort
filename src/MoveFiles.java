@@ -79,18 +79,13 @@ class MoveFiles {
 
     private void MoveFilesByName() {
         File[] fileList = FindFiles();
-
-        for (String key : findInName.keySet()) {
-            log.info(fileList.length + " files fount");
-            log.info("find mask " + key + " from name");
-            for (File file : fileList) {
-                if (file.getName().contains(key)) {
-                    if (file.renameTo(new File(findInName.get(key) + file.getName()))) {
-                        log.info("The file " + file.getName() + " was moved to " + findInName.get(key) + " successfully.");
-                    } else log.info("The file" + file.getName() + " was not moved.");
-                }
-                fileList = FindFiles();
-            }
+        log.info(fileList.length + " files fount");
+        for (File file : fileList) {
+            findInName.keySet().stream().filter(key -> file.getName().contains(key)).forEach(key -> {
+                if (file.renameTo(new File(findInName.get(key) + file.getName()))) {
+                    log.info("The file " + file.getName() + " was moved to " + findInName.get(key) + " successfully.");
+                } else log.info("The file" + file.getName() + " was not moved.");
+            });
         }
     }
 
