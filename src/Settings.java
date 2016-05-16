@@ -2,24 +2,19 @@ import java.io.FileInputStream;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-public class Settings {
+class Settings {
     private static Logger log = Logger.getLogger(MoveFiles.class.getName());
 
     private String file = "filesort.properties";
     private Properties properties = new Properties();
 
 
-    public Settings() {
-        readConfig();
-    }
-
-
-    public Settings(String file) {
+    Settings(String file) {
         this.file = file;
         readConfig();
     }
 
-    public Properties getProperties() {
+    Properties getProperties() {
         return properties;
     }
 

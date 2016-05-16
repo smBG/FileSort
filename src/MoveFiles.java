@@ -3,7 +3,7 @@ import java.io.FileFilter;
 import java.util.*;
 import java.util.logging.Logger;
 
-public class MoveFiles {
+ class MoveFiles {
     private static Logger log = Logger.getLogger(MoveFiles.class.getName());
 
 
@@ -13,7 +13,7 @@ public class MoveFiles {
     private HashMap<String, String> findInBody = new HashMap<>();
 
 
-    public MoveFiles(Properties properties) {
+     MoveFiles(Properties properties) {
         this.properties = properties;
         dir = properties.getProperty("DIR");
         log.info("Start find files in dirictory " + dir);
@@ -32,9 +32,7 @@ public class MoveFiles {
      * @param findList list folders
      */
     private void checkFolderExists(HashMap<String, String> findList) {
-        Iterator<String> iterator = findList.keySet().iterator();
-        while (iterator.hasNext()) {
-            String key = iterator.next();
+        for (String key : findList.keySet()) {
             String value = findList.get(key);
             File dir = new File(value);
             if (!dir.exists()) {
@@ -66,37 +64,26 @@ public class MoveFiles {
         File file = new File(dir);
         FileFilter allFiles;
         if (!properties.getProperty("TYPEFILES").equals("*")) {
-            allFiles = new FileFilter() {
-                @Override
-                public boolean accept(File pathname) {
-                    String name = pathname.getName().toLowerCase();
-                    return name.endsWith(properties.getProperty("TYPEFILES")) && pathname.isFile();
-                }
+            allFiles = pathname -> {
+                String name = pathname.getName().toLowerCase();
+                return name.endsWith(properties.getProperty("TYPEFILES")) && pathname.isFile();
             };
         } else {
-            allFiles = new FileFilter() {
-                @Override
-                public boolean accept(File pathname) {
-                    String name = pathname.getName().toLowerCase();
-                    return pathname.isFile();
-                }
-            };
+            allFiles = File::isFile;
         }
 
-        File[] files = file.listFiles(allFiles);
-        return files;
-
+        return file.listFiles(allFiles);
 
     }
 
     private void MoveFilesByName() {
         File[] tmp = FindFiles();
-        StringBuilder stringBuilder = new StringBuilder();
 
         for (String key : findInName.keySet()) {
+            log.info(tmp.length + " files fount");
+            log.info("find mask " + key);
             for (File file : tmp) {
-                stringBuilder.append(file.getName());
-                if (stringBuilder.indexOf(key) != -1) {
+                if (file.getName().contains(key)) {
                     if (file.renameTo(new File(findInName.get(key) + file.getName()))) {
                         log.info("The file " + file.getName() + " was moved to " + findInName.get(key) + " successfully.");
                     } else log.info("The file" + file.getName() + " was not moved.");
@@ -110,15 +97,6 @@ public class MoveFiles {
 //        File[] result = FindFiles();
 //        MoveFiles(result);
 
-    }
-
-
-    private void printFindList(HashMap<String, String> findList) {
-        Iterator<String> iterator = findList.keySet().iterator();
-        while (iterator.hasNext()) {
-            String key = iterator.next();
-            System.out.println("key:" + key + "value:" + findList.get(key));
-        }
     }
 
 
