@@ -1,9 +1,10 @@
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.logging.Logger;
 
- class MoveFiles {
+class MoveFiles {
     private static Logger log = Logger.getLogger(MoveFiles.class.getName());
 
 
@@ -13,7 +14,7 @@ import java.util.logging.Logger;
     private HashMap<String, String> findInBody = new HashMap<>();
 
 
-     MoveFiles(Properties properties) {
+    MoveFiles(Properties properties) {
         this.properties = properties;
         dir = properties.getProperty("DIR");
         log.info("Start find files in dirictory " + dir);
@@ -77,25 +78,47 @@ import java.util.logging.Logger;
     }
 
     private void MoveFilesByName() {
-        File[] tmp = FindFiles();
+        File[] fileList = FindFiles();
 
         for (String key : findInName.keySet()) {
-            log.info(tmp.length + " files fount");
-            log.info("find mask " + key);
-            for (File file : tmp) {
+            log.info(fileList.length + " files fount");
+            log.info("find mask " + key + " from name");
+            for (File file : fileList) {
                 if (file.getName().contains(key)) {
                     if (file.renameTo(new File(findInName.get(key) + file.getName()))) {
                         log.info("The file " + file.getName() + " was moved to " + findInName.get(key) + " successfully.");
                     } else log.info("The file" + file.getName() + " was not moved.");
                 }
-                tmp = FindFiles();
+                fileList = FindFiles();
             }
         }
     }
 
     private void MoveFilesByBody() {
-//        File[] result = FindFiles();
-//        MoveFiles(result);
+        File[] fileList = FindFiles();
+
+        for (String key : findInBody.keySet()) {
+            log.info(fileList.length + " files fount");
+            log.info("find mask " + key + " from body");
+            for (File file : fileList) {
+                Scanner scanner = null;
+                try {
+                    scanner = new Scanner(file);
+                    while (scanner.hasNext()) {
+                        if (scanner.nextLine().contains(key)) {
+                            if (file.renameTo(new File(findInBody.get(key) + file.getName()))) {
+                                log.info("The file " + file.getName() + " was moved to " + findInBody.get(key) + " successfully.");
+                            } else log.info("The file" + file.getName() + " was not moved.");
+                        }
+                    }
+                } catch (FileNotFoundException e) {
+                    log.warning("File " + file + " not found");
+                }
+                assert scanner != null;
+                scanner.close();
+                fileList = FindFiles();
+            }
+        }
 
     }
 
