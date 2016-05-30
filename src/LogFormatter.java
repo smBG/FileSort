@@ -3,27 +3,27 @@ import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-public class LogFormatter {
-    public static void main(String[] args) {
-        Logger logger = Logger.getLogger(LogFormatter.class.getName());
-        logger.setUseParentHandlers(false);
+//public class LogFormatter {
+//    public static void main(String[] args) {
+//        Logger logger = Logger.getLogger(LogFormatter.class.getName());
+//        logger.setUseParentHandlers(false);
+//
+//        MyFormatter formatter = new MyFormatter();
+//        ConsoleHandler handler = new ConsoleHandler();
+//        handler.setFormatter(formatter);
 
-        MyFormatter formatter = new MyFormatter();
-        ConsoleHandler handler = new ConsoleHandler();
-        handler.setFormatter(formatter);
-
-        logger.addHandler(handler);
-        logger.info("Example of creating custom formatter.");
-        logger.warning("A warning message.");
-        logger.severe("A severe message.");
-    }
-}
+//        logger.addHandler(handler);
+//        logger.info("Example of creating custom formatter.");
+//        logger.warning("A warning message.");
+//        logger.severe("A severe message.");
+//    }
+//}
 
 class MyFormatter extends Formatter {
     //
     // Create a DateFormat to format the logger timestamp.
     //
-    private static final DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
+    private static final DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS");
 
     public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder(1000);
@@ -32,7 +32,7 @@ class MyFormatter extends Formatter {
         builder.append(record.getSourceMethodName()).append("] - ");
         builder.append("[").append(record.getLevel()).append("] - ");
         builder.append(formatMessage(record));
-        builder.append("\n");
+        builder.append("\n \n");
         return builder.toString();
     }
 

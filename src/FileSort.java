@@ -3,9 +3,11 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 
 public class FileSort {
-    private static Logger log = Logger.getLogger(MoveFiles.class.getName());
+    private static Logger log = Logger.getLogger(FileSort.class.getName());
 
-    static {
+
+    private static void initLog() {
+
         log.setUseParentHandlers(false);
         MyFormatter formatter = new MyFormatter();
         ConsoleHandler handler = new ConsoleHandler();
@@ -15,6 +17,7 @@ public class FileSort {
 
 
     public static void main(String[] args) {
+        initLog();
         String settingFile = "filesort.properties";
         Settings settings = new Settings(settingFile);
         Properties properties = settings.getProperties();

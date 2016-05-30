@@ -3,7 +3,7 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 class Settings {
-    private static Logger log = Logger.getLogger(MoveFiles.class.getName());
+    private static final Logger log = Logger.getLogger(Settings.class.getName());
 
     private String file = "filesort.properties";
     private Properties properties = new Properties();
